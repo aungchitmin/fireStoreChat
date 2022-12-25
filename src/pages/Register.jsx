@@ -22,6 +22,7 @@ const Register = () => {
     try {
       //Create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(res)
 
       //Create a unique image name
       const date = new Date().getTime();

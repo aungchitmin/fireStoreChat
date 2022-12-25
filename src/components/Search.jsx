@@ -24,6 +24,7 @@ const Search = () => {
       collection(db, "users"),
       where("displayName", "==", username)
     );
+    console.log(q)
 
     try {
       const querySnapshot = await getDocs(q);
@@ -41,6 +42,7 @@ const Search = () => {
 
   const handleSelect = async () => {
     //check whether the group(chats in firestore) exists, if not create
+    //combinedId btwn 2 persons always the same.
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
@@ -53,6 +55,7 @@ const Search = () => {
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
 
         //create user chats
+        //update for person A
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
@@ -61,7 +64,7 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-
+        //update for person B
         await updateDoc(doc(db, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
